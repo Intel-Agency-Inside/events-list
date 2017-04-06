@@ -4,7 +4,11 @@ import eventCSV from 'file-loader!../../assets/data/events.csv';
 import { List } from 'immutable';
 import EventItem from './event-item.jsx';
 import FilterBar from './filter-bar.jsx';
+import styles from './event-list.scss';
 
+// if data's not flowing and you think someone
+// changed the header line in the xls try updating
+// this convenience object
 const dataHeaderBindings = {
   title: 'Event Name',
   description: 'Desc',
@@ -31,6 +35,8 @@ export default class EventList extends Component {
       header: true,
       error: err => { throw new Error(err) },
       complete: results => {
+        // using a filterHash to read and dedupe filters
+        // as they are read from items in the CSV
         const filterHash = { 'All Topics': true };
         const events = results.data.map(event => {
           if (event[dataHeaderBindings.filter]) {
@@ -44,13 +50,20 @@ export default class EventList extends Component {
             url: event[dataHeaderBindings.url],
             filter: event[dataHeaderBindings.filter],
           };
-        }).sort((eventA, eventB) => eventA.time - eventB.time);
+        }).sort((eventA, eventB) => eventA.time - eventB.time).reverse();
         const filters = Object.keys(filterHash).sort();
         this.setState({ events, filters });
       }
     });
   }
 
+  // All events from the CSV are stored in this.state.events.
+  // getEventGroup takes that sorted array of events, filters
+  // it by the filterExpression param, additionally filters
+  // by the date range and topic selected by the user, then
+  // if any events meet the criteria it returns a JSX group
+  // with a title and <EventItem> components for each item
+  // in the filtered array.
   getEventGroup({ title, filterExpression }) {
     const events = this.state.events
       // past or future
@@ -95,9 +108,7 @@ export default class EventList extends Component {
 
   render() {
     return (
-      <div className="intel-event-list">
-        <h4>Current Topic: { this.state.filters && this.state.filters[this.state.filterValue] }</h4>
-        <h4>Filter Date Range: { this.state.filterDateRange }</h4>
+      <div className={ styles.EventList }>
         <FilterBar
           filters={ this.state.filters }
           filterValue={ this.state.filterValue }

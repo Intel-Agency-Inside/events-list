@@ -1,0 +1,113 @@
+@import './intel-colors.scss';
+
+.EventItem {
+  color: $charcoal;
+  background-color: #f2f5f8;
+  padding: 16px;
+  margin-top: 15px;
+  header {
+    width: 100%;
+    display: table;
+    time {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 5px 15px;
+      width: 150px;
+      border-right: 1px solid $light-gray;
+    }
+    .title {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 5px 30px;
+      max-width: 425px;
+      h4 {
+        margin: 0;
+        font-weight: bolder;
+      }
+      .eventItemExpander {
+        margin-top: 7px;
+        color: $digital-blue;
+        outline: none;
+        svg {
+          fill: $digital-blue;
+          display: inline-block;
+          vertical-align: middle;
+          width: 20px;
+          height: 20px;
+          margin-right: 3px;
+        }
+        span {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        &:hover {
+          color: $intel-blue;
+          svg { fill: $intel-blue; }
+        }
+      }
+    }
+    .action {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: right;
+      button {
+        color: white;
+        font-size: 16px;
+        min-width: 168px;
+        line-height: 45px;
+        border-radius: 3px;
+        padding: 0 11px;
+        background-color: $digital-blue;
+        &:hover {
+          background-color: $intel-blue;
+        }
+      }
+    }
+  }
+  .moreInfo {
+    overflow: hidden;
+    color: $dark-gray;
+    max-height: 0;
+    max-width: 635px;
+    transition: max-height 200ms;
+    padding-left: 180px;
+    &:before {
+      display: block;
+      content: ' ';
+      padding-top: 1em;
+    }
+  }
+  &:first-child {
+    margin-top: 0;
+  }
+  @media (max-width: 768px) {
+    position: relative;
+    padding-bottom: 62px;
+    header {
+      time {
+        display: block;
+        padding: 0;
+        border: 0;
+      }
+      .title {
+        display: block;
+        padding: 1.5em 0;
+      }
+      .action {
+        position: absolute;
+        display: block;
+        text-align: left;
+        left: 16px;
+        bottom: 16px;
+      }
+    }
+    .moreInfo {
+      padding-left: 0;
+      margin-top: -1em;
+      margin-bottom: 1em;
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
