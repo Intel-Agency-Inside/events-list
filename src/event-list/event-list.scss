@@ -4,30 +4,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'intel-clear';
+  padding-bottom: 45px;
 
   button {
     border: 0;
     margin: 0;
-    padding: 0;
-    background-color: transparent;
-  }
-
-  button.intel.blue {
-    min-height: 45px;
-    background-color: $digital-blue;
     color: white;
+    font-size: 16px;
     min-width: 168px;
-    border-radius: 2px;
-    &.outline {
-      background-color: white;
-      border: 1px solid $digital-blue;
-      color: $digital-blue;
-      &:hover {
-        background-color: $lightest-gray;
-      }
-    }
+    line-height: 45px;
+    border-radius: 3px;
+    padding: 0 11px;
+    background-color: $digital-blue;
     &:hover {
       background-color: $intel-blue;
+    }
+    &:disabled {
+      color: $gray;
+      background-color: $dark-gray;
     }
   }
 
@@ -45,8 +39,23 @@
     }
   }
 
-  #load-more-events {
-    display: block;
-    margin: 60px auto 60px auto;
+  .NoMatch {
+    text-align: center;
+  }
+
+  .loadMore {
+    text-align: center;
+    padding-top: 30px;
+    button {
+      background-color: white;
+      border: 1px solid $digital-blue;
+      color: $digital-blue;
+      &:hover {
+        background-color: $lightest-gray;
+      }
+    }
+    &:last-child {
+      padding-bottom: 30px;
+    }
   }
 }

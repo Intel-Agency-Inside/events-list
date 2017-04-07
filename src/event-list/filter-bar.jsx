@@ -10,6 +10,23 @@ export default class FilterBar extends Component {
     updateDateRange: PropTypes.func.isRequired,
   };
 
+  isFiltering() {
+    const isFiltering = this.props.filterValue || this.props.dateRange;
+    return !!isFiltering;
+  }
+
+  clearFilters() {
+    if (this.isFiltering()) {
+      const zeroValueEvent = {
+        target: {
+          value: 0
+        }
+      };
+      this.props.updateFilterValue(zeroValueEvent);
+      this.props.updateDateRange(zeroValueEvent);
+    }
+  }
+
   render() {
     return (
       <nav className={ styles.FilterBar }>
@@ -32,6 +49,13 @@ export default class FilterBar extends Component {
               <option value="8035200000">next 3 months</option>
               <option value="16070400000">next 6 months</option>
             </select>
+          </section>
+          <section className={ styles.action }>
+            <button
+              onClick={ () => this.clearFilters() }
+              disabled={ this.isFiltering() === false }>
+              Clear Filters
+            </button>
           </section>
         </div>
       </nav>

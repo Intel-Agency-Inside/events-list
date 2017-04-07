@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Papa from 'papaparse';
 import eventCSV from 'file-loader!../../assets/data/events.csv';
-import { List } from 'immutable';
-import EventItem from './event-item.jsx';
+import EventGroup from './event-group.jsx';
 import FilterBar from './filter-bar.jsx';
 import styles from './event-list.scss';
 
@@ -50,7 +49,7 @@ export default class EventList extends Component {
             url: event[dataHeaderBindings.url],
             filter: event[dataHeaderBindings.filter],
           };
-        }).sort((eventA, eventB) => eventA.time - eventB.time).reverse();
+        }).sort((eventA, eventB) => eventA.time - eventB.time);
         const filters = Object.keys(filterHash).sort();
         this.setState({ events, filters });
       }
@@ -58,14 +57,12 @@ export default class EventList extends Component {
   }
 
   // All events from the CSV are stored in this.state.events.
-  // getEventGroup takes that sorted array of events, filters
+  // getFilteredEvents takes that sorted array of events, filters
   // it by the filterExpression param, additionally filters
-  // by the date range and topic selected by the user, then
-  // if any events meet the criteria it returns a JSX group
-  // with a title and <EventItem> components for each item
-  // in the filtered array.
-  getEventGroup({ title, filterExpression }) {
-    const events = this.state.events
+  // by the date range and topic selected by the user, and
+  // returns the filtered array
+  getFilteredEvents(filterExpression) {
+    return this.state.events
       // past or future
       .filter(filterExpression)
       // topic filter 
@@ -82,16 +79,15 @@ export default class EventList extends Component {
         }
         const rangeTarget = Date.now() + this.state.dateRange;
         return Date.now() < event.time && event.time < rangeTarget;
-      })
-      .map((event, index) => <EventItem key={index} {...event} />);
-    if (events.length) {
-      return (
-        <div>
-          <h2>{ title }</h2>
-          { events }
-        </div>
-      );
-    }
+      });
+  }
+
+  getFutureEvents() {
+    return this.getFilteredEvents(event => Date.now() < event.time);
+  }
+
+  getPastEvents() {
+    return this.getFilteredEvents(event => Date.now() > event.time);
   }
 
   updateFilterValue(event) {
@@ -107,6 +103,8 @@ export default class EventList extends Component {
   }
 
   render() {
+    const futureEvents = this.getFutureEvents();
+    const pastEvents = this.getPastEvents();
     return (
       <div className={ styles.EventList }>
         <FilterBar
@@ -116,14 +114,23 @@ export default class EventList extends Component {
           dateRange={ this.state.dateRange }
           updateDateRange={ event => this.updateDateRange(event) }/>
         <div className="container">
-          { this.getEventGroup({
-            title: 'Future Events',
-            filterExpression: event => Date.now() < event.time
-          }) }
-          { this.getEventGroup({
-            title: 'Past Events',
-            filterExpression: event => Date.now() > event.time
-          }) }
+          <EventGroup
+            title="Future Events"
+            events={ futureEvents }
+            limit={ 5 }
+          />
+          <EventGroup
+            title="Past Events"
+            events={ pastEvents }
+            limit={ 5 }
+          />
+          { pastEvents.length + futureEvents.length === 0 &&
+            <div className={ styles.NoMatch }>
+              <h2>No Matching Events</h2>
+              <p>Ooops, it doesn't look like any events match your search. Try changing the filter settings or clearing the filters with the button below.</p>
+              <p><button>Clear Filters</button></p>
+            </div>
+          }
         </div>
       </div>
     )

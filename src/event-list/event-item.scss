@@ -27,6 +27,7 @@
       .eventItemExpander {
         margin-top: 7px;
         color: $digital-blue;
+        cursor: pointer;
         outline: none;
         svg {
           fill: $digital-blue;
@@ -50,18 +51,6 @@
       display: table-cell;
       vertical-align: middle;
       text-align: right;
-      button {
-        color: white;
-        font-size: 16px;
-        min-width: 168px;
-        line-height: 45px;
-        border-radius: 3px;
-        padding: 0 11px;
-        background-color: $digital-blue;
-        &:hover {
-          background-color: $intel-blue;
-        }
-      }
     }
   }
   .moreInfo {

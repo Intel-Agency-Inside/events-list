@@ -7,8 +7,6 @@
   .Container {
     display: table;
     @media (max-width: 768px) {
-      padding-left: 0;
-      padding-right: 0;
       width: 100%;
     }
   }
@@ -41,7 +39,11 @@
   }
   .action {
     text-align: right;
-    padding-right: 16px;
+    padding-right: 15px;
+    width: 200px;
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
   @media (max-width: 768px) {
     padding: 24px 11px;
