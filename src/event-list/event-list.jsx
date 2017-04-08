@@ -1,5 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, {
+  Component,
+  PropTypes
+} from 'react';
 import Papa from 'papaparse';
+import qs from 'query-string';
 import eventCSV from 'file-loader!../../assets/data/events.csv';
 import EventGroup from './event-group.jsx';
 import FilterBar from './filter-bar.jsx';
@@ -26,17 +30,23 @@ export default class EventList extends Component {
       filterValue: 0,
       dateRange: 0,
     };
+    this.qsFilter = qs.parse(location.search).filter;
+    console.log(this.qsFilter);
   }
 
   componentDidMount() {
     Papa.parse(eventCSV, {
       download: true,
       header: true,
-      error: err => { throw new Error(err) },
+      error: err => {
+        throw new Error(err)
+      },
       complete: results => {
         // using a filterHash to read and dedupe filters
         // as they are read from items in the CSV
-        const filterHash = { 'All Topics': true };
+        const filterHash = {
+          'All Topics': true
+        };
         const events = results.data.map(event => {
           if (event[dataHeaderBindings.filter]) {
             filterHash[event[dataHeaderBindings.filter]] = true;
@@ -50,8 +60,14 @@ export default class EventList extends Component {
             filter: event[dataHeaderBindings.filter],
           };
         }).sort((eventA, eventB) => eventA.time - eventB.time);
+        console.log(filterHash);
         const filters = Object.keys(filterHash).sort();
-        this.setState({ events, filters });
+        filters.forEach((filter, index) => filterHash[filter] = index);
+        this.setState({
+          events,
+          filters,
+          filterValue: filterHash[this.qsFilter] ? filterHash[this.qsFilter] : 0,
+        });
       }
     });
   }
@@ -102,6 +118,16 @@ export default class EventList extends Component {
     });
   }
 
+  clearFilters() {
+    const zeroValueEvent = {
+      target: {
+        value: 0
+      }
+    };
+    this.updateFilterValue(zeroValueEvent);
+    this.updateDateRange(zeroValueEvent);
+  }
+
   render() {
     const futureEvents = this.getFutureEvents();
     const pastEvents = this.getPastEvents();
@@ -112,6 +138,7 @@ export default class EventList extends Component {
           filterValue={ this.state.filterValue }
           updateFilterValue={ event => this.updateFilterValue(event) }
           dateRange={ this.state.dateRange }
+          clearFilters={ () => this.clearFilters() }
           updateDateRange={ event => this.updateDateRange(event) }/>
         <div className="container">
           <EventGroup
@@ -128,7 +155,7 @@ export default class EventList extends Component {
             <div className={ styles.NoMatch }>
               <h2>No Matching Events</h2>
               <p>Ooops, it doesn't look like any events match your search. Try changing the filter settings or clearing the filters with the button below.</p>
-              <p><button>Clear Filters</button></p>
+              <p><button onClick={ () => this.clearFilters() }>Clear Filters</button></p>
             </div>
           }
         </div>

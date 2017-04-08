@@ -3,6 +3,7 @@ import styles from './filter-bar.scss';
 
 export default class FilterBar extends Component {
   static propTypes = {
+    clearFilters: PropTypes.func.isRequired,
     filters: PropTypes.array,
     filterValue: PropTypes.number,
     updateFilterValue: PropTypes.func.isRequired,
@@ -13,18 +14,6 @@ export default class FilterBar extends Component {
   isFiltering() {
     const isFiltering = this.props.filterValue || this.props.dateRange;
     return !!isFiltering;
-  }
-
-  clearFilters() {
-    if (this.isFiltering()) {
-      const zeroValueEvent = {
-        target: {
-          value: 0
-        }
-      };
-      this.props.updateFilterValue(zeroValueEvent);
-      this.props.updateDateRange(zeroValueEvent);
-    }
   }
 
   render() {
@@ -52,7 +41,7 @@ export default class FilterBar extends Component {
           </section>
           <section className={ styles.action }>
             <button
-              onClick={ () => this.clearFilters() }
+              onClick={ this.props.clearFilters }
               disabled={ this.isFiltering() === false }>
               Clear Filters
             </button>
