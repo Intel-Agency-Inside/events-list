@@ -1,7 +1,4 @@
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React, { Component, PropTypes } from 'react';
 import Papa from 'papaparse';
 import qs from 'query-string';
 import eventCSV from 'file-loader!../../assets/data/events.csv';
@@ -30,8 +27,6 @@ export default class EventList extends Component {
       filterValue: 0,
       dateRange: 0,
     };
-    this.qsFilter = qs.parse(location.search).filter;
-    console.log(this.qsFilter);
   }
 
   componentDidMount() {
@@ -42,8 +37,8 @@ export default class EventList extends Component {
         throw new Error(err)
       },
       complete: results => {
-        // using a filterHash to read and dedupe filters
-        // as they are read from items in the CSV
+        // hashing filters to dedupe them as they
+        // are read in from the csv file
         const filterHash = {
           'All Topics': true
         };
@@ -60,9 +55,9 @@ export default class EventList extends Component {
             filter: event[dataHeaderBindings.filter],
           };
         }).sort((eventA, eventB) => eventA.time - eventB.time);
-        console.log(filterHash);
         const filters = Object.keys(filterHash).sort();
         filters.forEach((filter, index) => filterHash[filter] = index);
+        const qsFilter = qs.parse(location.search).filter;
         this.setState({
           events,
           filters,
