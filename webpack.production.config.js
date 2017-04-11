@@ -7,7 +7,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 loaders.push({
 	test: /\.scss$/,
-	loader: ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
+	loader: ExtractTextPlugin.extract({fallback: 'style-loader', use : 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'}),
 	exclude: ['node_modules']
 });
 
@@ -44,7 +44,7 @@ module.exports = {
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new ExtractTextPlugin({
-				filename: 'style.css',
+				filename: 'event-list.css',
 				allChunks: true
 		}),
 		new HtmlWebpackPlugin({

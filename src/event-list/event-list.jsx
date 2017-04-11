@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Papa from 'papaparse';
 import qs from 'query-string';
-import eventCSV from 'file-loader!../../assets/data/events.csv';
 import EventGroup from './event-group.jsx';
 import FilterBar from './filter-bar.jsx';
 import styles from './event-list.scss';
@@ -19,6 +18,10 @@ const dataHeaderBindings = {
 };
 
 export default class EventList extends Component {
+  static propTypes = {
+    dataUrl: PropTypes.string.isRequired,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -30,7 +33,7 @@ export default class EventList extends Component {
   }
 
   componentDidMount() {
-    Papa.parse(eventCSV, {
+    Papa.parse(this.props.dataUrl, {
       download: true,
       header: true,
       error: err => {

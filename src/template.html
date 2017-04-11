@@ -1,12 +1,80 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>React App</title>
+  <title>Event List</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin.eot");
+      src: url("./assets/font/intel-clear-latin.eot?#iefix") format("embedded-opentype"), url('./assets/font/intel-clear-latin.woff') format('woff'), url('./assets/font/intel-clear-latin.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal
+    }
+
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin-bold.eot");
+      src: url("./assets/font/intel-clear-latin-bold.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-latin-bold.woff") format("woff"), url("./assets/font/intel-clear-latin-bold.ttf") format("truetype");
+      font-weight: bold;
+      font-style: normal
+    }
+    
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin-italic.eot");
+      src: url("./assets/font/intel-clear-latin-italic.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-latin-italic.woff") format("woff"), url("./assets/font/intel-clear-latin-italic.ttf") format("truetype");
+      font-weight: normal;
+      font-style: italic
+    }
+    
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin-bold-italic.eot");
+      src: url("./assets/font/intel-clear-latin-bold-italic.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-latin-bold-italic.woff") format("woff"), url("./assets/font/intel-clear-latin-bold-italic.ttf") format("truetype");
+      font-weight: bold;
+      font-style: italic
+    }
+    
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin-lite.eot");
+      src: url("./assets/font/intel-clear-latin-lite.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-latin-lite.woff") format("woff"), url("./assets/font/intel-clear-latin-lite.ttf") format("truetype");
+      font-weight: 200;
+      font-style: normal
+    }
+    
+    @font-face {
+      font-family: "intel-clear";
+      src: url("./assets/font/intel-clear-latin-lite-italic.eot");
+      src: url("./assets/font/intel-clear-latin-lite-italic.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-latin-lite-italic.woff") format("woff"), url("./assets/font/intel-clear-latin-lite-italic.ttf") format("truetype");
+      font-weight: 200;
+      font-style: italic
+    }
+    
+    @font-face {
+      font-family: "intel-clear-headline";
+      src: url("./assets/font/intel-clear-headline.eot");
+      src: url("./assets/font/intel-clear-headline.eot?#iefix") format("embedded-opentype"), url("./assets/font/intel-clear-headline.woff") format("woff"), url("./assets/font/intel-clear-headline.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal
+    }
+    
+    @font-face {
+      font-family: "intel-clear-pro-lowercaseselect";
+      src: url("./assets/font/IntelClearProLowercaseSelect_W_Bd.eot");
+      src: url("./assets/font/IntelClearProLowercaseSelect_W_Bd.eot?#iefix") format("embedded-opentype"), url("./assets/font/IntelClearProLowercaseSelect_W_Bd.woff") format("woff"), url("./assets/font/IntelClearProLowercaseSelect_W_Bd.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal
+    }
+  </style>
 </head>
+
 <body>
-  <div id="app">Loading...</div>
+  <div id="eventListApp" data-url="https://s3-us-west-2.amazonaws.com/experiencemore-email-assets/events.csv">Loading event list...</div>
 </body>
+
 </html>
