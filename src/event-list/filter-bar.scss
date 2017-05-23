@@ -1,29 +1,35 @@
-@import './intel-colors.scss';
+@import "./intel-colors.scss";
 
 .FilterBar {
   color: white;
   background-color: $charcoal;
   padding: 28px 15px;
   font-family: 'intel-clear';
+
   .Container {
     display: table;
+    width: 100%;
+
     @media (max-width: 768px) {
       width: 100%;
     }
   }
+
   section {
     display: table-cell;
     vertical-align: bottom;
+
     label {
       font-weight: 200;
       font-size: 20px;
       margin-right: 12px;
+
       @media (max-width: 768px) {
         display: none;
       }
     }
+
     select {
-      background-color: $charcoal;
       border: 1px solid $dark-gray;
       color: $gray;
       border-radius: 2px;
@@ -33,30 +39,49 @@
       background: transparent;
       background-image: none;
       -webkit-appearance: none;
-      background-image: url('../../assets/svgs/event-list/down_caret.svg');
+      -moz-appearance: none;
+      text-indent: 0.01px;
+      text-overflow: ' ';
+      line-height: 1em;
+      vertical-align: middle;
+      background-image: url("../../assets/svgs/event-list/down_caret.svg");
       background-repeat: no-repeat;
       background-position: right center;
+      &::-ms-expand {
+        display: none;
+      }
+
+      @-moz-document url-prefix() {
+        padding-top: 12px;
+      }
     }
   }
+
   .action {
     text-align: right;
     padding-right: 15px;
     width: 200px;
+
     @media (max-width: 768px) {
       display: none;
     }
   }
+
   @media (max-width: 768px) {
     padding: 24px 0;
+
     section {
       width: 50%;
       padding: 0 11px;
+
       &:first-child {
         padding-left: 0;
       }
+
       &:last-child {
         padding-right: 0;
       }
+
       select {
         width: 100%;
       }

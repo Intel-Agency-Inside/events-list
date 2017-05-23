@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 import Papa from 'papaparse';
 import qs from 'query-string';
 import EventGroup from './event-group.jsx';
@@ -20,6 +21,7 @@ const dataHeaderBindings = {
 export default class EventList extends Component {
   static propTypes = {
     dataUrl: PropTypes.string.isRequired,
+    itemName: PropTypes.string,
   };
 
   constructor() {
@@ -36,6 +38,7 @@ export default class EventList extends Component {
     Papa.parse(this.props.dataUrl, {
       download: true,
       header: true,
+      encoding: "ISO-8859-1",
       error: err => {
         throw new Error(err)
       },
@@ -52,7 +55,7 @@ export default class EventList extends Component {
           return {
             title: event[dataHeaderBindings.title],
             description: event[dataHeaderBindings.description],
-            time: new Date(event[dataHeaderBindings.time]),
+            time: moment(event[dataHeaderBindings.time], 'DD-MMM-YY'),
             cta: event[dataHeaderBindings.cta],
             url: event[dataHeaderBindings.url],
             filter: event[dataHeaderBindings.filter],
@@ -64,7 +67,7 @@ export default class EventList extends Component {
         this.setState({
           events,
           filters,
-          filterValue: filterHash[this.qsFilter] ? filterHash[this.qsFilter] : 0,
+          filterValue: filterHash[qsFilter] ? filterHash[qsFilter] : 0,
         });
       }
     });
@@ -101,7 +104,9 @@ export default class EventList extends Component {
   }
 
   getPastEvents() {
-    return this.getFilteredEvents(event => Date.now() > event.time);
+    const pastEvents = this.getFilteredEvents(event => Date.now() > event.time);
+    pastEvents.sort((eventA, eventB) => eventB.time - eventA.time);
+    return pastEvents;
   }
 
   updateFilterValue(event) {
@@ -140,12 +145,12 @@ export default class EventList extends Component {
           updateDateRange={ event => this.updateDateRange(event) }/>
         <div className="container">
           <EventGroup
-            title="Future Events"
+            title={ `Future ${this.props.itemName || 'Events'}` }
             events={ futureEvents }
             limit={ 5 }
           />
           <EventGroup
-            title="Past Events"
+            title={ `Past ${this.props.itemName || 'Events'}` }
             events={ pastEvents }
             limit={ 5 }
           />
