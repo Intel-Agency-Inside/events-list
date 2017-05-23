@@ -21,7 +21,8 @@ const dataHeaderBindings = {
 export default class EventList extends Component {
   static propTypes = {
     dataUrl: PropTypes.string.isRequired,
-    itemName: PropTypes.string,
+    futureItemsLabel: PropTypes.string,
+    pastItemsLabel: PropTypes.string,
   };
 
   constructor() {
@@ -145,12 +146,12 @@ export default class EventList extends Component {
           updateDateRange={ event => this.updateDateRange(event) }/>
         <div className="container">
           <EventGroup
-            title={ `Future ${this.props.itemName || 'Events'}` }
+            title={ this.props.futureItemsLabel || 'Future Events' }
             events={ futureEvents }
             limit={ 5 }
           />
           <EventGroup
-            title={ `Past ${this.props.itemName || 'Events'}` }
+            title={ this.props.pastItemsLabel || 'Past Events' }
             events={ pastEvents }
             limit={ 5 }
           />
